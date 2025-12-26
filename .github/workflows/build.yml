@@ -1,0 +1,45 @@
+#
+# build.yml
+#
+
+name: Build
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+
+      - name: Install dependencies
+        run: | 
+          echo ""
+          echo "Installing dependencies..."
+          flutter pub get
+          echo ""
+          
+      - name: Clean project
+        run: | 
+          echo ""
+          echo "Clean project"
+          flutter clean
+          echo ""
+
+      - name: Build android app
+        run: | 
+          echo ""
+          echo "Build android app"
+          flutter build apk --release
+          echo ""
+
+      - name: Build android app bundle
+        run: | 
+          echo ""
+          echo "Build android app bundle"
+          flutter build appbundle --target-platform android-arm,android-arm64,android-x64
+          echo ""
